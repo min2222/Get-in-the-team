@@ -106,7 +106,7 @@ public abstract class MixinServerLevel extends Level
 			}
 		}
 		
-		if(entity != null && entity.getTeam() != null)
+		if(entity != null && entity.getTeam() != null && entity.getServer() != null)
 		{
 			PlayerTeam team = entity.getServer().getScoreboard().getPlayerTeam(entity.getTeam().getName());
 			entity.getServer().getScoreboard().addPlayerToTeam(p_8837_.getStringUUID(), team);
