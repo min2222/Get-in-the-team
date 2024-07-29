@@ -15,7 +15,7 @@ public class EventHandlerForge
 	public static final Map<Integer, UUID> ENTITY_MAP2 = new HashMap<>();
 	
 	@SubscribeEvent
-	public static void entityJoinLevel(EntityJoinLevelEvent event)
+	public static void onEntityJoinLevel(EntityJoinLevelEvent event)
 	{
 		ENTITY_MAP.put(event.getEntity().getClass().hashCode(), event.getEntity().getUUID());
 		for(Class<?> clazz : event.getEntity().getClass().getDeclaredClasses())
