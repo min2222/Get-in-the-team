@@ -32,34 +32,37 @@ public abstract class MixinServerLevel extends Level
 	private void addFreshEntity(Entity p_8837_, CallbackInfoReturnable<Boolean> ci)
 	{
 		MySecurityManager manager = new MySecurityManager();
-		Entity entity1 = null;
-		Entity entity2 = null;
 		Class<?>[] ctx = manager.getContext();
-		int i = 0;
-		int i2 = 0;
-		do
+		for(Class<?> clazz : ctx)
 		{
-			entity1 = ServerLevel.class.cast(this).getEntity(EventHandlerForge.ENTITY_MAP.get(ctx[i].hashCode()));
-			i++;
-		}
-		while(entity1 == null && i < ctx.length);
-		do
-		{
-			entity2 = ServerLevel.class.cast(this).getEntity(EventHandlerForge.ENTITY_MAP2.get(ctx[i2].hashCode()));
-			i2++;
-		}
-		while(entity2 == null && i2 < ctx.length);
-		Entity entity = entity1 != null ? entity1 : entity2;
-		if(entity != null)
-		{
-			if(entity.getTeam() != null && entity.getServer() != null)
+			if(EventHandlerForge.ENTITY_MAP.containsKey(clazz.hashCode()))
 			{
-				PlayerTeam team = entity.getServer().getScoreboard().getPlayerTeam(entity.getTeam().getName());
-				entity.getServer().getScoreboard().addPlayerToTeam(p_8837_.getStringUUID(), team);
+				Entity entity = EventHandlerForge.ENTITY_MAP.get(clazz.hashCode());
+				if(entity != null)
+				{
+					if(entity.getTeam() != null && entity.getServer() != null)
+					{
+						PlayerTeam team = entity.getServer().getScoreboard().getPlayerTeam(entity.getTeam().getName());
+						entity.getServer().getScoreboard().addPlayerToTeam(p_8837_.getStringUUID(), team);
+					}
+				}
+			}
+			else if(EventHandlerForge.ENTITY_MAP2.containsKey(clazz.hashCode()))
+			{
+				Entity entity = EventHandlerForge.ENTITY_MAP2.get(clazz.hashCode());
+				if(entity != null)
+				{
+					if(entity.getTeam() != null && entity.getServer() != null)
+					{
+						PlayerTeam team = entity.getServer().getScoreboard().getPlayerTeam(entity.getTeam().getName());
+						entity.getServer().getScoreboard().addPlayerToTeam(p_8837_.getStringUUID(), team);
+					}
+				}
 			}
 		}
 	}
 
+	@SuppressWarnings("removal")
 	private static class MySecurityManager extends SecurityManager
 	{
 		public Class<?>[] getContext()
